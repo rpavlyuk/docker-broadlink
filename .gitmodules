@@ -1,0 +1,4 @@
+[submodule "python-broadlink/src"]
+	path = python-broadlink/src
+	url = https://github.com/eschava/python-broadlink.git
+	branch = get_energy

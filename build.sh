@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="1.0"
-CONTAINER_NAME="docker.io/rpavlyuk/c7-ls30"
+CONTAINER_NAME="docker.io/rpavlyuk/c7-broadlink"
 
 # Run svarog to build the RPMs
 svarog

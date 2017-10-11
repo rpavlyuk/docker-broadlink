@@ -25,8 +25,20 @@ BuildRequires:  python-setuptools
 BuildRequires:  python-rpm-macros
 BuildRequires:  python3-rpm-macros
 
+%if 0%{?fedora}
 Requires:       python3
 Requires:       python3-pyaes
+
+BuildRequires:  python-setuptools
+%endif
+
+%if 0%{?rhel}
+Requires:       python34
+Requires:       python34-crypto.x86_64
+
+BuildRequires:	python34-setuptools
+%endif
+
 
 %description
 Python BroadLink library to control BroadLink smart home devices. 

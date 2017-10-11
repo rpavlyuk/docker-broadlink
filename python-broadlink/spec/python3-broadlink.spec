@@ -34,7 +34,7 @@ BuildRequires:  python-setuptools
 
 %if 0%{?rhel}
 Requires:       python34
-Requires:       python34-crypto.x86_64
+Requires:       python34-crypto
 
 BuildRequires:	python34-setuptools
 %endif

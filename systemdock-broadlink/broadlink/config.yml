@@ -7,3 +7,5 @@ volumes: {}
 privileged: false
 tty: false
 working_dir: /root
+environment: {}
+network_mode: host

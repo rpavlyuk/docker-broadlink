@@ -1,5 +1,5 @@
 [Unit]
-Description=LS-30 in Docker container running as a service
+Description=BroadLink in Docker container running as a service
 After=docker.service
 Requires=docker.service
 
@@ -9,8 +9,8 @@ Restart=no
 RestartSec=60s
 Type=simple
 NotifyAccess=all
-ExecStart=-/usr/bin/systemdock -v -a start -n LS-30
-ExecStop=/usr/bin/systemdock -v -a stop -n LS-30
+ExecStart=-/usr/bin/systemdock -v -a start -n broadlink
+ExecStop=/usr/bin/systemdock -v -a stop -n broadlink
 
 [Install]
 WantedBy=multi-user.target

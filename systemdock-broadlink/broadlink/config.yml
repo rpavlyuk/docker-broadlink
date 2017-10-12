@@ -1,0 +1,13 @@
+container: docker.io/rpavlyuk/c7-ls30
+created: 2017-10-11 16:53:53.501852
+name: LS-30
+ports:
+        3000/tcp: 3000
+        1681/tcp: 1681
+volumes: {}
+privileged: false
+tty: false
+working_dir: /root
+command:
+        host:
+                post: docker exec LS-30 /usr/bin/ls-30-set-remote 192.168.1.220:1681

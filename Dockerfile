@@ -28,7 +28,7 @@ COPY .rpms/ /rpms/
 RUN ls -al /rpms
 
 # Install ls-30 and PERL library
-RUN yum localinstall -y /rpms/python3-broadlink*
+RUN yum localinstall -y /rpms/python-broadlink*
 
 ## Expose ports
 # EXPOSE 3000 1681

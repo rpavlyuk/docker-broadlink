@@ -25,7 +25,7 @@ BuildRequires:  python-setuptools
 BuildRequires:  python-rpm-macros
 
 Requires:       python
-Requires:       python-pyaes
+Requires:       python-crypto
 
 BuildRequires:  python-setuptools
 

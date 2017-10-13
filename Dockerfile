@@ -7,7 +7,7 @@ RUN yum install -y epel-release
 
 RUN yum update -y
 
-RUN yum install -y less file mc vim-enhanced telnet net-tools which 
+RUN yum install -y less file mc vim-enhanced telnet net-tools which bash-completion openssh-clients
 
 ### Let's enable systemd on the container
 RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
@@ -29,6 +29,14 @@ RUN ls -al /rpms
 
 # Install ls-30 and PERL library
 RUN yum localinstall -y /rpms/python-broadlink*
+
+# Install Zabbix Agent
+RUN rpm -Uvh http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm
+RUN yum install -y zabbix-agent
+RUN systemctl enable zabbix-agent
+
+# Copy configuration files
+COPY ./docker-broadlink/fs/* /
 
 ## Expose ports
 # EXPOSE 3000 1681

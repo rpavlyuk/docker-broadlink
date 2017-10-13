@@ -36,7 +36,7 @@ RUN yum install -y zabbix-agent
 RUN systemctl enable zabbix-agent
 
 # Copy configuration files
-COPY ./docker-broadlink/fs/* /
+COPY ./docker-broadlink/fs/ /
 
 ## Expose ports
 # EXPOSE 3000 1681

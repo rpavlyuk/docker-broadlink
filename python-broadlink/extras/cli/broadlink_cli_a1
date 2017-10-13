@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+import broadlink
+import sys
+import argparse
+import time
+
+### Main routine
+def main(args, type=0x2714):
+
+    host = args.host
+    mac = bytearray.fromhex(args.mac)
+
+    dev = broadlink.gendevice(type, (host, 80), mac)
+    dev.auth()
+
+    if args.raw:
+        data = dev.check_sensors_raw()
+    else:
+        data = dev.check_sensors()
+
+    if args.key is not None:
+        print data[args.key]
+    else:
+        for k in data:
+            print "{} {}".format(k, data[k])
+
+
+# Standard boilerplate to call the main() function to begin
+# the program.
+if __name__ == '__main__':
+    
+    parser = argparse.ArgumentParser(fromfile_prefix_chars='@');
+    parser.add_argument("--mac", help="mac address (hex reverse), as used by python-broadlink library", required=True)
+    parser.add_argument("--host", help="device IP address", required=True)
+    parser.add_argument("--key", help="data key")
+    parser.add_argument("--raw", help="provide raw output", action="store_true")
+    args = parser.parse_args()
+
+    main(args)

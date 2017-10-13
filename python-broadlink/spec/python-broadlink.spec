@@ -52,6 +52,7 @@ mkdir -p "$RPM_BUILD_ROOT"
 
 mkdir -p "$RPM_BUILD_ROOT"%{_bindir}
 cp -a src/cli/broadlink_* "$RPM_BUILD_ROOT"%{_bindir}
+cp -a extras/cli/broadlink_* "$RPM_BUILD_ROOT"%{_bindir}
 
 %files
 %{python_sitelib}/*

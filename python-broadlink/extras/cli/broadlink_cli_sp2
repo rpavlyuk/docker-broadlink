@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+import broadlink
+import sys
+import argparse
+import time
+
+def auto_int(x):
+    return int(x, 0)
+
+### Main routine
+def main(args):
+
+    host = args.host
+    mac = bytearray.fromhex(args.mac)
+
+    dev = broadlink.gendevice(args.type, (host, 80), mac)
+    dev.auth()
+
+    if args.key == 'power':
+        if dev.check_power():
+            print(1)
+        else:
+            print(0)
+    elif args.key == 'energy':
+        print(dev.get_energy())
+
+
+# Standard boilerplate to call the main() function to begin
+# the program.
+if __name__ == '__main__':
+    
+    parser = argparse.ArgumentParser(fromfile_prefix_chars='@');
+    parser.add_argument("--mac", help="mac address (hex reverse), as used by python-broadlink library", required=True)
+    parser.add_argument("--type", type=auto_int, default=0x2711, help="type of device")
+    parser.add_argument("--host", help="device IP address", required=True)
+    parser.add_argument("--key", help="data key", choices=['power', 'energy'], default='power')
+    args = parser.parse_args()
+
+    main(args)

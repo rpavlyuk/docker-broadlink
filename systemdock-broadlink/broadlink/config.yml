@@ -3,7 +3,10 @@ created: 2017-10-12 16:53:53.501852
 name: broadlink
 ports:
         8888/tcp: 8888
-volumes: {}
+volumes:
+        /sys/fs/cgroup:
+                bind: /sys/fs/cgroup
+                mode: ro
 privileged: false
 tty: false
 working_dir: /root

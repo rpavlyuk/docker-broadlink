@@ -14,4 +14,4 @@ environment: {}
 network_mode: host
 command:
         host:
-                post: docker exec broadlink perl -pi -e "s/\=127.0.0.1/\=192.168.1.5/gi" /etc/zabbix/zabbix_agentd.conf && docker exec broadlink systemctl restart zabbix-agent
+                post: docker exec broadlink perl -pi -e "s/\=127.0.0.1/\=192.168.1.5/gi" /etc/zabbix/zabbix_agentd.conf && docker exec broadlink perl -pi -e "s/\=zabbix.server/\=liberty.home.pavlyuk.lviv.ua/gi" /etc/zabbix/zabbix_agentd.conf &&  docker exec broadlink systemctl restart zabbix-agent

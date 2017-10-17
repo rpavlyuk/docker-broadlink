@@ -11,7 +11,10 @@ Luckly, we have Python library created by **Matthew Garrett** aka @mjg59: https:
 * Pre-configured [Zabbix Agent](https://www.zabbix.com/zabbix_agent) to allow monitoring of certain parameters
 
 ## Running broadlink docker image
-Please, make sure you have [Docker](http://docker.io) installed and configured before you continue with any further steps.
+### Pre-requisites
+* Please, make sure you have [Docker](http://docker.io) installed and configured before you continue with any further steps.
+* Setup all BroadLink devices first using [e-Control](https://itunes.apple.com/app/broadlink-e-control/id793152994). Otherwise the system on the container won't be able to use them correctly.
+
 ### Run using systemdock (recommended)
 [SystemDock](https://github.com/rpavlyuk/systemdock) is the tool to run Docker containers as ```systemd``` service.
 * Install systemdock by following the instructions from https://github.com/rpavlyuk/systemdock
@@ -87,8 +90,57 @@ False
 >>> devices[0].get_energy()
 0.0
 ```
+You can find more samples in ```python-broadlink``` [manual](https://github.com/mjg59/python-broadlink#example-use).
+
 ### Using with Zabbix
-[to be added]
+Container comes with Zabbix Agent enabled that you can use to collect various metrics from your BroadLink devices.
+
+Currently two types of devices are supported:
+* SP series (SP2, SP3, SP3S). Supported keys: ```power```, ```energy``` (SP3S only)
+* A1. Supported keys: ```temperature```, ```humidity```, ```light```, ```air_quality```, ```noise```
+But this list can be extended by adding propper helper scripts and Zabbix Agent params.
+
+First, let's try if Zabbix Agent running on the container is accessible by the server. So, log into the shell of the box where you have Zabbix Server running and try this:
+* For A1 device:
+```
+zabbix_get -s <ZABBIX_AGENT_IP> -p 10555 -k "broadlink.device.a1.get[<MAC_ADDRESS_OF_BL_DEVICE>, <IP_OF_BL_DEVICE>, <KEY>]"
+```
+Example:
+```
+zabbix_get -s 192.168.1.6 -p 10555 -k "broadlink.device.a1.get[34EA34E52EDD, 192.168.3.12, temperature]"
+```
+* For SPx device:
+```
+zabbix_get -s <ZABBIX_AGENT_IP> -k "broadlink.device.sp2.get[<MAC_ADDRESS_OF_BL_DEVICE>, <IP_OF_BL_DEVICE>, <KEY>]"
+```
+Example:
+```
+zabbix_get -s 192.168.1.6 -p 10555 -k "broadlink.device.sp2.get[34EA34BD2E4B, 192.168.3.11, power]"
+```
+
+Correct response should look like these:
+```
+[rpavlyuk@liberty ~]$ zabbix_get -s 192.168.1.6 -p 10555 -k "broadlink.device.a1.get[34EA34E52EDD, 192.168.3.12, temperature]"
+21.5
+[rpavlyuk@liberty ~]$  zabbix_get -s 192.168.1.6 -p 10555 -k "broadlink.device.sp2.get[34EA34BE61CA, 192.168.3.10, energy]"
+0.0
+[rpavlyuk@liberty ~]$  zabbix_get -s 192.168.1.6 -p 10555 -k "broadlink.device.sp2.get[34EA34BE61CA, 192.168.3.10, power]"
+0
+```
+If you get errors then:
+* When using SystemDock, check ```config.yml``` if Zabbix Server IP and and hostname are correct (section ```command.host.post```). In not then correct them and restart the service ```systemdock-broadlink```  
+* If not using SystemDock then check if you've executed commands that configure the Agent. This is a snippet of commands **Plain run of the container** (see above)
+* Make sure you're trying to call the tight type of the device
+* Check file ```/var/log/zabbix/zabbix_agentd.log``` on the container for errors
+* Well, if you need backup from me and you can't get around by yourself — open an issue here
+
+Next, let's configure Zabbix Server. 
+* There's a sample template in the source code here available. Find the one in folder ```zabbix/templates```.
+* Import the template using _Configuration_ > _Templates_ > _Import_ menu from Zabbix Server WEB interface
+* Create a new host with name, for example, _BROADLINK_ and assign template ```BroadLink Monitoring``` to it. Also, make sure you specify correct IP of Zabbix agent and port ```10555``` (instead of default ```10050```)
+* Now you can update the items in the template so match your confguration. Especially, mac addresses and IPs.
+* Yon can now also build your custom graphs and screens
+
 
 ## TO-DO
 * Embedd [broadlink-http-rest](https://github.com/radinsky/broadlink-http-rest) project into the container (That's why I've reserved port 8888 for ;))

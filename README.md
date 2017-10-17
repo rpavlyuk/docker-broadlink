@@ -1,9 +1,9 @@
 # docker-broadlink — Docker container to run BroadLink IoT toolset
-[BroadLink](http://www.ibroadlink.com) is very popular solution for making your home smart. It offers Wi-Fi switches, sensors, remote controls and some other interesting devices. You can find more about BroadLink at their home WEB-page: http://www.ibroadlink.com
+[BroadLink](http://www.ibroadlink.com) is very popular solution for making your home smart. They offer Wi-Fi switches, sensors, remote controls and some other quite interesting devices. You can find more about BroadLink on their official WEB-page: http://www.ibroadlink.com
 
-BroadLink vendor provides mobile phone application called [e-Control](https://itunes.apple.com/app/broadlink-e-control/id793152994?mt=8) to manage the devices. However, BroadLink doesn't provide official SDK and API and that creates problem if you want to integrate your BroadLink devices into "smart home" system along with the others you already have.
+BroadLink's vendor provides mobile phone application called [e-Control](https://itunes.apple.com/app/broadlink-e-control/id793152994?mt=8) to manage the devices. However, what BroadLink doesn't provide is the official SDK and/or API and that creates a problem if you want to integrate your BroadLink devices into your "smart home" system along with the other IoT devices you already have.
 
-Luckly, we have a Python library created by Matthew Garrett aka @mjg59: https://github.com/mjg59/python-broadlink. I've put this library inside the Docker container and added some other useful stuff that you would probably like.
+Luckly, we have Python library created by **Matthew Garrett** aka @mjg59: https://github.com/mjg59/python-broadlink. What I did in scope of this project is that I've put this library inside Docker container and added some other useful stuff that you would probably like.
 
 ## What is inside the Docker image?
 * Fork of ```python-broadlink``` library by user @eschava (to have ```get_energy()``` available)

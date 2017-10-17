@@ -3,6 +3,7 @@ created: 2017-10-12 16:53:53.501852
 name: broadlink
 ports:
         8888/tcp: 8888
+        10555/tcp: 10555
 volumes:
         /sys/fs/cgroup:
                 bind: /sys/fs/cgroup

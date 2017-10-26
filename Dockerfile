@@ -29,7 +29,7 @@ RUN ls -al /rpms
 
 # Install ls-30 and PERL library
 RUN yum localinstall -y /rpms/python-broadlink*
-RUN systemctl enable broadlink-rest
+RUN systemctl enable broadlink-server
 
 # Install Zabbix Agent
 RUN rpm -Uvh http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm

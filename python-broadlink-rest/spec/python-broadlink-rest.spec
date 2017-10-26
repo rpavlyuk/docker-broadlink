@@ -9,7 +9,7 @@
 %global debug_package %{nil}
 
 Name:           %{_module}
-Version:        0.5
+Version:        0.1
 Release:        %{svn_revision}%{?dist}
 Summary:        Python BroadLink RESTful server
 Packager:       Roman Pavlyuk <roman.pavluyk@gmail.com>

@@ -26,6 +26,8 @@ BuildRequires:  python-rpm-macros
 
 Requires:       python-broadlink
 Requires:	python-pyramid
+Requires:	python-waitress
+Requires:	python-cornice
 
 %description
 Python BroadLink RESTful server that is based on python-broadlink library.

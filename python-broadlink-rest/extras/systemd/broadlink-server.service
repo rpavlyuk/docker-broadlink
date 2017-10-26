@@ -1,0 +1,14 @@
+[Unit]
+Description=BroadLink RESTful API server
+After=network.target
+
+[Service]
+TimeoutStartSec=0
+Restart=no
+RestartSec=60s
+Type=simple
+NotifyAccess=all
+ExecStart=-/usr/bin/pserve /usr/share/broadlink/rest/broadlink_rest.ini
+
+[Install]
+WantedBy=multi-user.target

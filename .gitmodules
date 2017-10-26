@@ -3,5 +3,5 @@
 	url = https://github.com/eschava/python-broadlink.git
 	branch = get_energy
 [submodule "python-broadlink-rest/broadlink_rest"]
-	path = python-broadlink-rest/broadlink_rest
+	path = python-broadlink-rest/src
 	url = https://github.com/rpavlyuk/python-broadlink-rest.git

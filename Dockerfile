@@ -29,6 +29,7 @@ RUN ls -al /rpms
 
 # Install ls-30 and PERL library
 RUN yum localinstall -y /rpms/python-broadlink*
+RUN systemctl enable broadlink-rest
 
 # Install Zabbix Agent
 RUN rpm -Uvh http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm
@@ -39,7 +40,7 @@ RUN systemctl enable zabbix-agent
 COPY ./docker-broadlink/fs/ /
 
 ## Expose ports
-# EXPOSE 3000 1681
+EXPOSE 6543
 
 ### Kick it off
 CMD ["/usr/sbin/init"]

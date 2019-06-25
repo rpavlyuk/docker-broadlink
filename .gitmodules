@@ -1,7 +1,9 @@
 [submodule "python-broadlink/src"]
 	path = python-broadlink/src
 	url = https://github.com/mjg59/python-broadlink.git
-	branch = master
 [submodule "python-broadlink-rest/broadlink_rest"]
 	path = python-broadlink-rest/src
 	url = https://github.com/rpavlyuk/python-broadlink-rest.git
+[submodule "python-cryptography"]
+	path = python-cryptography
+	url = https://github.com/rpavlyuk/python-cryptography.git

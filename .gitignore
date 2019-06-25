@@ -1,5 +1,7 @@
 # Misc
 .rpmbuild
+.repo
+.rpms
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

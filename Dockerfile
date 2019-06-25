@@ -37,7 +37,7 @@ RUN systemctl enable zabbix-agent
 COPY ./docker-broadlink/fs/ /
 
 ## Expose ports
-EXPOSE 6543 10555 8888
+EXPOSE 6543 10555
 
 ### Let's keep dynamic section at the end
 # Copy RPM packages to Docker image

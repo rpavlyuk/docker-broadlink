@@ -21,15 +21,12 @@ rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
 VOLUME [ "/sys/fs/cgroup" ]
 
-# Copy RPM packages to Docker image
-COPY .rpms/ /rpms/
+# Install Python3.6 environment
+RUN yum install -y python36 python36-pip
+RUN pip3 install --upgrade pip
 
-# Set what we've got
-RUN ls -al /rpms
-
-# Install ls-30 and PERL library
-RUN yum localinstall -y /rpms/python-broadlink*
-RUN systemctl enable broadlink-server
+# Install Pyramid framework
+RUN pip3 install pyramid waitress cornice PyCRC
 
 # Install Zabbix Agent
 RUN rpm -Uvh http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm
@@ -40,7 +37,21 @@ RUN systemctl enable zabbix-agent
 COPY ./docker-broadlink/fs/ /
 
 ## Expose ports
-EXPOSE 6543
+EXPOSE 6543 10555 8888
+
+### Let's keep dynamic section at the end
+# Copy RPM packages to Docker image
+COPY .rpms/ /rpms/
+
+# Set what we've got
+RUN ls -al /rpms
+
+# Install ls-30 and PERL library
+RUN yum localinstall -y /rpms/python*
+RUN systemctl enable broadlink-server
+
+# Fix CFFI
+RUN pip3 install --upgrade cffi
 
 ### Kick it off
 CMD ["/usr/sbin/init"]

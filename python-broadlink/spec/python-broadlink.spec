@@ -47,6 +47,8 @@ pushd ./src
 %{py3_build}
 popd
 
+perl -pi -e "s|\#\!\/usr\/bin\/env\ python|\#\!\/usr\/bin\/env\ python3|gi" ./src/cli/broadlink_discovery
+
 %install
 pushd ./src 
 %{py3_install}

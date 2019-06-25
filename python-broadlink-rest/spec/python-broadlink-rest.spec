@@ -8,7 +8,7 @@
 
 %global debug_package %{nil}
 
-Name:           %{_module}
+Name:           python3-broadlink-rest
 Version:        0.1
 Release:        %{svn_revision}%{?dist}
 Summary:        Python BroadLink RESTful server
@@ -21,13 +21,26 @@ Source0:        %{_module}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)-%{JOB_NAME}
 BuildArch:      noarch
 
-BuildRequires:  python-setuptools
-BuildRequires:  python-rpm-macros
 
-Requires:       python-broadlink
-Requires:	python-pyramid
-Requires:	python-waitress
-Requires:	python-cornice
+%if 0%{?rhel}
+BuildRequires:  python36-setuptools
+BuildRequires:  python3-rpm-macros
+
+Requires:       python36
+Requires:	python3-broadlink
+Requires:       python36-pip
+%endif
+
+%if 0%{?fedora} >= 21
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-rpm-macros
+
+Requires:       python3
+Requires:       python3-broadlink
+Requires:       python3-pip
+%endif
+
+
 
 %description
 Python BroadLink RESTful server that is based on python-broadlink library.
@@ -38,12 +51,12 @@ Python BroadLink RESTful server that is based on python-broadlink library.
 
 %build
 pushd ./src
-%{py_build}
+%{py3_build}
 popd
 
 %install
 pushd ./src 
-%{py_install}
+%{py3_install}
 popd
 
 # Common files
@@ -55,7 +68,7 @@ cp -a src/broadlink_rest.ini "$RPM_BUILD_ROOT"%{_datadir}/broadlink/rest
 cp -a extras/systemd/broadlink-server.service $RPM_BUILD_ROOT%{_unitdir}
 
 %files
-%{python_sitelib}/*
+%{python3_sitelib}/*
 
 %config(noreplace) %{_datadir}/broadlink/rest/broadlink_rest.ini
 

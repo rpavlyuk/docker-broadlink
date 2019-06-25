@@ -8,10 +8,10 @@
 
 %global debug_package %{nil}
 
-Name:           python-%{project}
-Version:        0.5
+Name:           python3-%{project}
+Version:        0.11.1
 Release:        %{svn_revision}%{?dist}
-Summary:        Python BroadLink library to control BroadLink smart home devices (forked by eschava)
+Summary:        Python BroadLink library to control BroadLink smart home devices
 Packager:       Roman Pavlyuk <roman.pavluyk@gmail.com>
 Group:          Tools/Other
 License:        GPLv3
@@ -21,14 +21,19 @@ Source0:        %{_module}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)-%{JOB_NAME}
 BuildArch:      noarch
 
-BuildRequires:  python-setuptools
-BuildRequires:  python-rpm-macros
+%if 0%{?rhel}
+BuildRequires:  python36-setuptools
+BuildRequires:  python3-rpm-macros
 
-Requires:       python
-Requires:       python-crypto
+Requires:       python3-cryptography
+%endif
 
-BuildRequires:  python-setuptools
+%if 0%{?fedora} >= 21
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-rpm-macros
 
+Requires:       python3-cryptography
+%endif
 
 %description
 Python BroadLink library to control BroadLink smart home devices. 
@@ -39,12 +44,12 @@ Python BroadLink library to control BroadLink smart home devices.
 
 %build
 pushd ./src
-%{py_build}
+%{py3_build}
 popd
 
 %install
 pushd ./src 
-%{py_install}
+%{py3_install}
 popd
 
 # Common files
@@ -55,7 +60,7 @@ cp -a src/cli/broadlink_* "$RPM_BUILD_ROOT"%{_bindir}
 cp -a extras/cli/broadlink_* "$RPM_BUILD_ROOT"%{_bindir}
 
 %files
-%{python_sitelib}/*
+%{python3_sitelib}/*
 
 %attr(0755, root, root) %{_bindir}/*
 

@@ -4,16 +4,42 @@ import broadlink
 import sys
 import argparse
 import time
+import socket
 
 ### Main routine
 def main(args, type=0x2714):
 
+    # defaults
+    retries_count = 3 # try N times before risinng an error
+
+    # args
     host = args.host
     mac = bytearray.fromhex(args.mac)
 
     dev = broadlink.gendevice(type, (host, 80), mac)
-    dev.auth()
 
+    # LEt's try to initiate the Device
+    i = 0
+    is_timeout = 0
+    while (i<retries_count):
+      i+=1
+      try:
+        dev.auth()
+        is_timeout = 0
+        break
+      except socket.timeout as err:
+        # do nothing, one more loop
+        is_timeout = 1
+        continue
+      except:
+        print("Device authorization failed", file=sys.stderr)
+        print(sys.exc_info(), file=sys.stderr)
+
+    # Okay, probably there was a timeout after 3 tries ...
+    if is_timeout:
+      raise Exception("Got socket timeout after {} retries".format(retries_count))
+
+    # Read the sensors
     if args.raw:
         data = dev.check_sensors_raw()
     else:

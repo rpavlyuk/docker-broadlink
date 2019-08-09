@@ -15,4 +15,4 @@ rm -rf .rpms && mkdir -p .rpms || exit 1
 find ./.repo -type f -name "*.rpm" -exec cp {} ./.rpms \; || exit 1
 
 # Build docker container
-docker build --rm -t "$CONTAINER_NAME" .
+docker build $@ --rm -t "$CONTAINER_NAME" .

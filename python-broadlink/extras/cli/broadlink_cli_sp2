@@ -14,12 +14,14 @@ def main(args):
 
     # defaults
     retries_count = 3 # try N times before risinng an error
+    d_auth = False
 
     # args
     host = args.host
     mac = bytearray.fromhex(args.mac)
 
     dev = broadlink.gendevice(args.type, (host, 80), mac)
+    dev.timeout = 5
 
     # LEt's try to initiate the Device
     i = 0
@@ -27,7 +29,7 @@ def main(args):
     while (i<retries_count):
       i+=1
       try:
-        dev.auth()
+        d_auth = dev.auth()
         is_timeout = 0
         break
       except socket.timeout as err:
@@ -40,16 +42,59 @@ def main(args):
 
     # Okay, probably there was a timeout after 3 tries ...
     if is_timeout:
-      raise Exception("Got socket timeout after {} retries".format(retries_count))
+      raise Exception("Got socket timeout after {} retries to authorize on the device".format(retries_count))
+
+    # Now, let's check of the authorization was ever made
+    if not d_auth:
+      raise Exception("Device authorization hasn't been made. Probably, it is not configured or is not supported by Python Broadlink library")    
 
 
     if args.key == 'power':
-        if dev.check_power():
+
+       # let's loop to avoid timeouts
+      i = 0
+      is_timeout = 0
+      while (i<retries_count):
+        i+=1
+        try:
+          if dev.check_power():
             print(1)
-        else:
+          else:
             print(0)
+          is_timeout = 0
+          break
+        except socket.timeout as err:
+          # do nothing, one more loop
+          is_timeout = 1
+          continue
+        except:
+          print("Failed to obtain power state from sensor", file=sys.stderr)
+          print(sys.exc_info(), file=sys.stderr)
+
     elif args.key == 'energy':
-        print(dev.get_energy())
+      # let's loop again
+      i = 0
+      is_timeout = 0
+      while (i<retries_count):
+        i+=1
+        try:
+          energy = dev.get_energy()
+          print(energy)
+          is_timeout = 0
+          break
+        except socket.timeout as err:
+          # do nothing, one more loop
+          is_timeout = 1
+          continue
+        except:
+          print("Failed to obtain energy value from sensor", file=sys.stderr)
+          print(sys.exc_info(), file=sys.stderr)
+
+      # Okay, probably there was a timeout after 3 tries ...
+      if is_timeout:
+        raise Exception("Got socket timeout after {} retries to obtain energy value".format(retries_count))
+
+
 
 
 # Standard boilerplate to call the main() function to begin

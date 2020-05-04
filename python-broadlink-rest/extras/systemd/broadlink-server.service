@@ -8,7 +8,7 @@ Restart=no
 RestartSec=60s
 Type=simple
 NotifyAccess=all
-ExecStart=-/usr/bin/pserve /usr/share/broadlink/rest/broadlink_rest.ini
+ExecStart=-/usr/local/bin/pserve /usr/share/broadlink/rest/broadlink_rest.ini
 
 [Install]
 WantedBy=multi-user.target

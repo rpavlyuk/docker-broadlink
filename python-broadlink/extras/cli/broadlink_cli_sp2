@@ -5,6 +5,7 @@ import sys
 import argparse
 import time
 import socket
+import traceback
 
 def auto_int(x):
     return int(x, 0)
@@ -39,6 +40,7 @@ def main(args):
       except:
         print("Device authorization failed", file=sys.stderr)
         print(sys.exc_info(), file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
 
     # Okay, probably there was a timeout after 3 tries ...
     if is_timeout:

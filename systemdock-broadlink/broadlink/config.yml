@@ -8,7 +8,7 @@ volumes:
         /sys/fs/cgroup:
                 bind: /sys/fs/cgroup
                 mode: ro
-privileged: false
+privileged: true
 tty: false
 working_dir: /root
 environment: {}
